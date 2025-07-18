@@ -1,0 +1,118 @@
+%% Created on Sat Jul 19 2025 
+%% author: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
+%%
+%% Usage: FieldTrip code for EEG data preprocessing
+%% Note:  The script was written for EEG workshop 24-26 July, 2025 @ IIT Mandi, India.
+%% 
+%% Add fieldtrip in path
+clc
+clear all
+restoredefaultpath
+prnt_dir = '//home//amit3//pCloudDrive//';
+ft_dir   = [prnt_dir, 'Scripts//TPTools//fieldtrip//'];
+addpath(ft_dir)
+ft_defaults
+addpath(pwd)
+ver
+
+%% Set data directory and other parameters
+data_dir = [prnt_dir, 'Workshop_IITMandi/'];
+filename = [data_dir, 'sample_audvis_raw_eeg.fif'];
+
+par            = [];
+par.stimchan   = 'STI 014';
+par.more_plots = true;
+par.trialwin   = [-0.500 0.500];
+par.bpfreq     = [1 45];
+par.cov_cut    = [2, 98]; 
+
+[~,dfname,~]= fileparts(filename);
+
+badch   = {'EEG 053'}; 
+
+%% Label event categories
+keyset={'AEF-L', 'AEF-R', 'VEF-L', 'VEF-R', 'smiley face', 'button press'};
+valueset=[1,2, 3, 4, 5, 32];
+evdict=containers.Map(keyset, valueset);
+
+%% Browse/review raw data
+if par.more_plots
+    cfg          = [];
+    cfg.channel  = {'EEG*' par.stimchan};
+    cfg.viewmode = 'vertical';
+    cfg.blocksize= 10;
+    cfg.preproc.demean   = 'yes';
+    cfg.dataset  = filename;
+    ft_databrowser(cfg);
+end
+%% Define trials
+cfg                     = [];       
+cfg.dataset             = filename;   
+cfg.channel             = 'EEG*';
+cfg.trialdef.eventtype  = par.stimchan;  
+cfg.trialdef.eventvalue = valueset;      
+cfg.trialdef.prestim    = 0.5;      
+cfg.trialdef.poststim   = 0.5;     
+cfgg = ft_definetrial(cfg);          
+
+%% Visualize events triggers 
+if par.more_plots
+    ft_plot_events(cfgg, keyset, valueset), 
+end
+
+%% Read data
+cfg            = [];
+cfg.continuous = 'yes';
+cfg.dataset    = filename;
+raw            = ft_preprocessing(cfg);
+disp(raw)
+
+data.raw.grad = ft_convert_coordsys(data.raw.grad, 'neuromag');
+data.raw.hdr.grad = ft_convert_coordsys(data.raw.hdr.grad, 'neuromag');
+% cfg.dataset    = er_megfile;
+% data.eraw      = ft_preprocessing(cfg);
+
+data.raw.trial{:}(isnan(data.raw.trial{:}))   = 0; % Remove if any NaN
+% data.eraw.trial{:}(isnan(data.eraw.trial{:})) = 0;
+
+min_mean_max_std_median(data.raw.trial{:})
+% min_mean_max_std_median(data.eraw.trial{:})
+fprintf('\n Data reading done...\n')
+system_type = data.raw.hdr.grad.type;
+
+dat   = data.raw.trial{:};
+sfreq = data.raw.hdr.Fs;
+
+%% Preprocess continuous data
+cfg                 = [];      
+cfg.dataset         = fname;
+cfg.channel         = megchan;
+cfg.checkmaxfilter  = 0;
+cfg.demean          = 'yes';
+cfg.detrend         = 'yes';
+cfg.bpfilter        = 'yes'; 
+cfg.bpfilttype      = 'but';
+cfg.bpfreq          = par.bpfreq; 
+cfg.coilaccuracy    = 1;
+data = ft_preprocessing(cfg);
+    
+cfg.bsfilter='yes';
+cfg.bsfreq = [49 50];
+data = ft_preprocessing(cfg, data);
+
+%% average ref.
+
+%% Segment the data
+cfg     = [];
+cfg.trl = cfgg.trl(:,:); 
+data = ft_redefinetrial(cfg, data);
+
+%% Interactive data browser 
+if par.more_plots
+    cfg            = [];
+    cfg.channel    = megchan;
+    cfg.demean     = 'yes';
+    cfg.continuous = 'no';
+    cfg.viewmode   = 'butterfly';
+    ft_databrowser(cfg, data);
+end
