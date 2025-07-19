@@ -5,6 +5,9 @@ Test data description
 -----
 The 60-channel unipolar EEG data were recorded with a Vectorview system (MEGIN Oy, Espoo, Finland).
 Please note that the data were originally recorded along with 306-channel MEG data; however, the MEG channels were removed from the file for the focus of this EEG workshop.  
+The original data is a part of MNE-Python tutorial dataset. 
+Please get the test data for the workshop hands-on here: https://transfer.megin.services/
+Afterword, please refer to the original data file on MNE-Python site.
 
 Analysis steps
 -----
