@@ -2,7 +2,7 @@
 This repository includes codes for the EEG workshop organized at IIT Mandi, India, on July 24-26, 2025.
 
 Test data description
------
+---
 The 60-channel unipolar EEG data were recorded using a Vectorview system (MEGIN Oy, Espoo, Finland). These data were originally acquired alongside 306-channel MEG recordings; however, the MEG channels have been removed for the purposes of this EEG-focused workshop.
 
 The dataset is part of the MNE-Python tutorial datasets.
@@ -11,10 +11,20 @@ https://transfer.megin.services/
 
 After this date, please refer to the original dataset available through the MNE-Python website.
 
-Analysis steps
------
-* Read data
-* Filter data
-* Trial and channel removal 
-* ICA
+Major analysis steps
+---
+* Read and review data
+* Read triggers and define events
+* Bandpass filtering
+* Apply ICA
+* Data segmentation or epoching
+* Omitting bad trials and channels 
+* Trials averaging and visualization
+* MRI segmentation
+* MRI-EEG coregistration
+* Head model preparation
+* Forward model computation
+* Data and noise covariance
+* Beamformer (LCMV) filter computation
+* Source mapping and visualization
 * 
