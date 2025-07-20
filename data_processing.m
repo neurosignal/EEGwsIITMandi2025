@@ -7,7 +7,7 @@
 %% Add fieldtrip in path
 clc
 clear all
-restoredefaultpath
+restoredefaultpath 
 prnt_dir = '//home//amit3//pCloudDrive//';
 ft_dir   = [prnt_dir, 'Scripts//TPTools//fieldtrip//'];
 addpath(ft_dir)
