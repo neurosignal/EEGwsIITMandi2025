@@ -1,47 +1,73 @@
-# EEGwsIITMandi2025
-This repository includes codes for the EEG-FieldTrip workshop organized at IIT Mandi, India, on July 24-26, 2025.
 
-Test data description
+# 🧠 EEGwsIITMandi2025
+
+This repository contains code and resources for the **EEG-FieldTrip Workshop** organized at **IIT Mandi, India**, from **July 24–26, 2025**.
+
 ---
-The 60-channel unipolar EEG data were recorded using a Vectorview system (MEGIN Oy, Espoo, Finland). These data were originally acquired alongside 306-channel MEG recordings; however, the MEG channels have been removed for the purposes of this EEG-focused workshop.
 
-The dataset is part of the MNE-Python tutorial datasets.
-For the hands-on session, the modified EEG-only version is available until July 27, 2025, at the following link:
-https://transfer.megin.services/
+## 📂 Test Data Description
 
-After this date, please refer to the original dataset available through the MNE-Python website.
+The **60-channel unipolar EEG data** were recorded using a **Vectorview system** (MEGIN Oy, Espoo, Finland). These data were originally acquired alongside **306-channel MEG recordings**; however, **MEG channels have been removed** for this EEG-focused workshop.
 
-Major analysis steps
+The dataset is a subset of the official **MNE-Python tutorial datasets**.
+
+👉 For the hands-on session, a **modified EEG-only version** is available **until July 27, 2025** at:  
+**[https://transfer.megin.services/](https://transfer.megin.services/)**
+
+After this date, please refer to the original dataset via the official **MNE-Python** website.
+
 ---
-* Read and review data
-* Read triggers and define events
-* Bandpass filtering
-* Applying ICA
-* Data segmentation or epoching
-* Omitting bad trials and channels 
-* Trials averaging and visualization
-* MRI segmentation
-* MRI-EEG coregistration
-* Head model preparation
-* Forward model computation
-* Data and noise covariance
-* Beamformer (LCMV) filter computation
-* Source mapping and visualization
 
-System requirements
+## 🧪 Major Analysis Steps
+
+- Read and review data  
+- Read triggers and define events  
+- Bandpass filtering  
+- Applying ICA  
+- Data segmentation (epoching)  
+- Omitting bad trials and channels  
+- Trial averaging and visualization  
+- MRI segmentation  
+- MRI-EEG coregistration  
+- Head model preparation  
+- Forward model computation  
+- Data and noise covariance computation  
+- Beamformer (LCMV) filter computation  
+- Source mapping and visualization  
+
 ---
-* RAM (Memory) > 4 GB
-* Disk space > 10 GB
 
-MATLAB and FieldTrip installation instructions
+## 💻 System Requirements
+
+- **RAM:** > 4 GB  
+- **Disk space:** > 10 GB  
+
 ---
-As part of the workshop, you will participate in hands-on sessions that involve EEG recording and analysis. For a smooth learning experience, please make sure you have MATLAB installed and FieldTrip downloaded on your laptop. 
-* To install MATLAB, first check if your institute provides MATLAB access. If not, you can buy MATLAB from the official MATLAB website: https://in.mathworks.com/
-* Alternatively, you can get a 30-day trial license from the following link: https://in.mathworks.com/campaigns/products/trials.html?prodcode=ML&s_iid=isrch_trial_ZZ_bb 
-* Please follow the installation process as per your laptop operating system: 
-https://in.mathworks.com/help/install/ug/install-products-with-internet-connection.html 
-* We will use the FieldTrip toolbox in MATLAB for the EEG analysis; please download from this link: https://www.fieldtriptoolbox.org/download.php
 
-*** Note: Please do the installation in advance to utilize the sessions to the maximum.***
+## 🧰 MATLAB and FieldTrip Installation Instructions
+
+You will participate in hands-on sessions involving EEG recording and analysis.  
+To ensure a smooth experience, please **pre-install** the following:
+
+### 🔧 MATLAB Installation
+
+- If your institute provides MATLAB access, use that to install.
+- Otherwise, you can purchase MATLAB from the [official site](https://in.mathworks.com/).
+- Or get a **30-day trial license**:  
+  [https://in.mathworks.com/campaigns/products/trials.html?prodcode=ML&s_iid=isrch_trial_ZZ_bb](https://in.mathworks.com/campaigns/products/trials.html?prodcode=ML&s_iid=isrch_trial_ZZ_bb)
+
+📌 Installation guide for different operating systems:  
+[https://in.mathworks.com/help/install/ug/install-products-with-internet-connection.html](https://in.mathworks.com/help/install/ug/install-products-with-internet-connection.html)
+
+### 🧠 FieldTrip Toolbox
+
+We will use the **FieldTrip toolbox** in MATLAB for EEG analysis.  
+Download it here:  
+[https://www.fieldtriptoolbox.org/download.php](https://www.fieldtriptoolbox.org/download.php)
+
+---
+
+> ⚠️ **Note:** Please complete all installations **before the workshop** to make the most of the hands-on sessions.
+
 
  
