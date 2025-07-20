@@ -14,7 +14,7 @@ After this date, please refer to the original dataset available through the MNE-
 Major analysis steps
 ---
 * Read and review data
-    ** Read triggers and define events
+* Read triggers and define events
 * Bandpass filtering
 * Applying ICA
 * Data segmentation or epoching
