@@ -11,10 +11,10 @@ The **60-channel unipolar EEG data** were recorded using a **Vectorview system**
 
 The dataset is a subset of the official **MNE-Python tutorial datasets**.
 
-👉 For the hands-on session, a **modified EEG-only version** is available **until July 27, 2025** at:  
+👉 For the hands-on session, a **EEG-only version** is available **until July 27, 2025** at:  
 **[https://transfer.megin.services/](https://transfer.megin.services/)**
 
-After this date, please refer to the original dataset via the official **MNE-Python** website.
+After that, please refer to the original dataset via the official **MNE-Python** website.
 
 ---
 
@@ -34,6 +34,7 @@ After this date, please refer to the original dataset via the official **MNE-Pyt
 - Data and noise covariance computation  
 - Beamformer (LCMV) filter computation  
 - Source mapping and visualization  
+- Multivariate pattern analysis (MVPA)
 
 ---
 
@@ -67,7 +68,7 @@ Download it here:
 
 ---
 
-> ⚠️ **Note:** Please complete all installations **before the workshop** to make the most of the hands-on sessions.
+> ⚠️ **Note: Please complete all installations before the workshop to make the most of the hands-on sessions.**
 
 
  
