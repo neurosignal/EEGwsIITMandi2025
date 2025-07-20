@@ -41,6 +41,7 @@ As part of the workshop, you will participate in hands-on sessions that involve 
 * Please follow the installation process as per your laptop operating system: 
 https://in.mathworks.com/help/install/ug/install-products-with-internet-connection.html 
 * We will use the FieldTrip toolbox in MATLAB for the EEG analysis; please download from this link: https://www.fieldtriptoolbox.org/download.php
+
 ** Note: Please do the installation in advance to utilize the sessions to the maximum.**
 
  
