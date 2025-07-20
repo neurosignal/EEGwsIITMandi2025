@@ -1,5 +1,5 @@
 # EEGwsIITMandi2025
-This repository includes codes for the EEG workshop organized at IIT Mandi, India, on July 24-26, 2025.
+This repository includes codes for the EEG-FieldTrip workshop organized at IIT Mandi, India, on July 24-26, 2025.
 
 Test data description
 ---
@@ -14,7 +14,7 @@ After this date, please refer to the original dataset available through the MNE-
 Major analysis steps
 ---
 * Read and review data
-* Read triggers and define events
+    ** Read triggers and define events
 * Bandpass filtering
 * Applying ICA
 * Data segmentation or epoching

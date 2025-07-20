@@ -133,7 +133,7 @@ cfg.refchannel = 'all';
 cfg.refmethod  = 'avg';
 rawfilt_eeg_interp  = ft_preprocessing(cfg, rawfilt_eeg_interp);
 
-%% 
+%% ICA
 % addpath([ft_dir 'forward/'])
 n_ic = 30;
                     
