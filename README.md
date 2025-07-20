@@ -33,3 +33,13 @@ System requirements
 * RAM (Memory) > 4 GB
 * Disk space > 10 GB
 
+MATLAB and FieldTrip installation instructions
+---
+As part of the workshop, you will participate in hands-on sessions that involve EEG recording and analysis. For a smooth learning experience, please make sure you have MATLAB installed and FieldTrip downloaded on your laptop. 
+* To install MATLAB, first check if your institute provides MATLAB access. If not, you can buy MATLAB from the official MATLAB website: https://in.mathworks.com/
+* Alternatively, you can get a 30-day trial license from the following link: https://in.mathworks.com/campaigns/products/trials.html?prodcode=ML&s_iid=isrch_trial_ZZ_bb 
+* Please follow the installation process as per your laptop operating system: 
+https://in.mathworks.com/help/install/ug/install-products-with-internet-connection.html 
+* We will use the FieldTrip toolbox in MATLAB for the EEG analysis; please download from this link: https://www.fieldtriptoolbox.org/download.php
+* 'Note': Please do the installation in advance to utilize the sessions to the maximum.
+ 

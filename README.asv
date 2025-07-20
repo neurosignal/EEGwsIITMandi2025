@@ -1,5 +1,5 @@
 # EEGwsIITMandi2025
-This repository includes codes for the EEG workshop organized at IIT Mandi, India, on July 24-26, 2025.
+This repository includes codes for the EEG-FieldTrip workshop organized at IIT Mandi, India, on July 24-26, 2025.
 
 Test data description
 ---
@@ -16,10 +16,23 @@ Major analysis steps
 * Read and review data
 * Read triggers and define events
 * Bandpass filtering
-* Apply ICA
+* Applying ICA
 * Data segmentation or epoching
 * Omitting bad trials and channels 
 * Trials averaging and visualization
 * MRI segmentation
 * MRI-EEG coregistration
-* 
+* Head model preparation
+* Forward model computation
+* Data and noise covariance
+* Beamformer (LCMV) filter computation
+* Source mapping and visualization
+
+System requirements
+---
+* RAM (Memory) > 4 GB
+* Disk space > 10 GB
+
+MATLAB and FieldTrip installation instructions
+---
+MATLAB
