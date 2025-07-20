@@ -62,8 +62,7 @@ To ensure a smooth experience, please **pre-install** the following:
 
 ### 🧠 FieldTrip Toolbox
 
-We will use the **FieldTrip toolbox** in MATLAB for EEG analysis.  
-Download it here:  
+We will use the **FieldTrip toolbox** in MATLAB for EEG analysis. Download it here:  
 [https://www.fieldtriptoolbox.org/download.php](https://www.fieldtriptoolbox.org/download.php)
 
 ---
