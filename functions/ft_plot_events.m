@@ -39,13 +39,14 @@ end
 if length(keyset) < 2
     legend(sprintf('%s : %d', char(keyset), length(cfg.trl(:, 4))));
 else
-    legend('show', 'Location', 'bestoutside');
+    lgd = legend('show', 'Location', 'bestoutside');
+    set(lgd, 'FontSize', 14);
 end
 
 % Set axes limits and labels
 xlim([cfg.trl(1, 1), cfg.trl(end, 2)]);
 ylabel('Event ID', 'FontSize', 12);
-xlabel('Latency', 'FontSize', 12);
+xlabel('Latency (ms)', 'FontSize', 12);
 title('Events Plot', 'FontSize', 12);
 
 end

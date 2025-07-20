@@ -16,7 +16,7 @@ Major analysis steps
 * Read and review data
 * Read triggers and define events
 * Bandpass filtering
-* Apply ICA
+* Applying ICA
 * Data segmentation or epoching
 * Omitting bad trials and channels 
 * Trials averaging and visualization
@@ -27,4 +27,4 @@ Major analysis steps
 * Data and noise covariance
 * Beamformer (LCMV) filter computation
 * Source mapping and visualization
-* 
+
