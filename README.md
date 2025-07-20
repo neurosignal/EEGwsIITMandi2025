@@ -28,3 +28,8 @@ Major analysis steps
 * Beamformer (LCMV) filter computation
 * Source mapping and visualization
 
+System requirements
+---
+* RAM (Memory) > 4 GB
+* Disk space > 10 GB
+
