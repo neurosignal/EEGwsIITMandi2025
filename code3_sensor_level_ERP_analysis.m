@@ -24,7 +24,7 @@ epochs_all = containers.Map();
 evoked_all = containers.Map();
 
 %% Segment the data / epoching
-stimulus= 'VEF-R'; % <<< change this
+stimulus= 'VEF-L'; % <<< change this
 t1      = 0.070;   % <<< change this
 t2      = 0.100;   % <<< change this 
 
@@ -80,7 +80,7 @@ epochs_all(stimulus) = epochs;
 evoked_all(stimulus) = evoked;
 
 %% Save data and other info. in a mat file
-save(replace(filename, '.mat', '_clean.mat'),...
+save(filename,...
     'par', 'raw_clean', 'trldef', 'epochs_all', 'evoked_all', 'lay2D',...
     '-nocompression', '-v7.3')
 

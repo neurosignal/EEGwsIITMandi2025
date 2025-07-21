@@ -84,6 +84,7 @@ cfg.layout = lay2D;
 ft_layoutplot(cfg)
 
 %% Save data and other info. in a mat file
+par.orig_filename = filename;
 save(replace(filename, '.fif', '.mat'),...
     'par', 'artf', 'raw', 'trldef', 'lay2D',...
     '-nocompression', '-v7.3')
