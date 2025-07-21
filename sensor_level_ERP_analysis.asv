@@ -20,15 +20,11 @@ filename = [data_dir, 'sample_audvis_raw_eeg_clean.mat'];
 
 load(filename) % it loads par, raw_clean, trldef, and lay2D in the workspace
 
-epochs_all = containers.Map();
-evoked_all = containers.Map();
-
-%% Segment the data / epoching
-stimulus= 'VEF-R'; % <<< change this
-t1      = 0.070;   % <<< change this
-t2      = 0.100;   % <<< change this
-
-stimID  = par.evdict(stimulus);
+epochs_all = []
+%% Segment the data
+stimID  = 3;
+t1      = 0.070;
+t2      = 0.100;
 
 cfg     = [];
 cfg.trl = trldef.trl(trldef.trl(:,end)==stimID,:); 
@@ -71,17 +67,13 @@ ft_databrowser(cfg, evoked);
 %% Totoplot and topomap
 cfg = [];
 cfg.layout = lay2D;
-ft_multiplotER(cfg, evoked)
 cfg.xlim   = [t1, t2];
+ft_multiplotER(cfg, evoked)
 ft_topoplotER(cfg, evoked)
-
-%% collect epochs and evoked in the containers
-epochs_all(stimulus) = epochs;
-evoked_all(stimulus) = evoked;
 
 %% Save data and other info. in a mat file
 save(replace(filename, '.mat', '_clean.mat'),...
-    'par', 'raw_clean', 'trldef', 'epochs_all', 'evoked_all', 'lay2D',...
+    'par', 'raw_clean', 'trldef', 'epochs', 'evoked', 'lay2D',...
     '-nocompression', '-v7.3')
 
 fprintf('\nClean data saved; now move to source-level analysis.\n')
