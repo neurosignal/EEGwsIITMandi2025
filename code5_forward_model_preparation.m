@@ -18,16 +18,18 @@ ver
 data_dir = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
 filename = [data_dir, 'sample_audvis_raw_eeg_clean.mat'];
 mri_fname= [data_dir, 'sample_T1.nii'];
+aligned_mri_fname = replace(mri_fname, '.nii', '_aligned.mat');
+seg_mri_fname     = replace(mri_fname, '.nii', '_aligned_seg.mat');
 
 load(filename) % it loads par, raw_clean, epochs, evoked, trldef, and lay2D in the workspace
 
-%% Forward model parametres
-par.gridres = 10; %mm
-
-%% Plot sens position
+%% Plot electode positions and digitization points
 figure; 
 ft_plot_sens(raw_clean.elec, 'label', 'off', 'elecsize', 1, 'elecshape', 'circle', 'facecolor', 'red'); 
 rotate3d
+
+hsps = ft_read_headshape(par.orig_filename);
+ft_plot_headshape(hsps, 'vertexcolor', 'gray', 'vertexsize', 15)
 
 %% Assign the native coordsys for the EEG data
 raw_clean.coordsys          = 'neuromag';
@@ -41,82 +43,109 @@ mri = ft_convert_units(mri, 'm');
 ft_sourceplot([], mri)
 
 %% EEG-MRI coregistration
-hsp = ft_read_headshape(par.orig_filename, 'unit', 'm');
-
 cfg             =[];
 cfg.method      ='interactive';
 cfg.coordsys    = 'neuromag';
 cfg.parameter   = 'anatomy';
 cfg.viewresult  =  'yes' ;
-[mri] = ft_volumerealign(cfg, mri);
+mri = ft_volumerealign(cfg, mri);
+
+hsps = ft_convert_units(hsps, 'm');
+cfg                     = [];
+cfg.method              = 'headshape';
+cfg.headshape.headshape = hsps;
+cfg.headshape.icp       = 'yes';
+cfg.coordsys            = 'neuromag';
+cfg.parameter           = 'anatomy';
+cfg.viewresult          = 'yes';
+mri = ft_volumerealign(cfg, mri);
 
 %% Cross check the alignment
 ft_determine_coordsys(mri, 'interactive', 'no')
-ft_plot_headshape(hsp)
+% hsps = ft_convert_units(hsps, 'm');
+ft_plot_headshape(hsps)
 
-%% Segment coregisted MRI, if needed
-if isequal(par.mri_seg, 'yes')
-    if ~isequal(par.mri_align, 'yes') % assuming that the given 'mrifname' is already coregistered
-        mri = ft_read_mri(mrifname);
-    end
-    cfg          = [];  
-    cfg.output   = 'brain';
-    cfg.spmversion = 'spm12';
-    segmri = ft_volumesegment(cfg, mri);
-    segmri.transform = mri.transform;
-    segmri.anatomy   = mri.anatomy;  
-end
+%% Save aligned MRI
+save(aligned_mri_fname, 'mri')
+clear mri
 
-%% Reading the coregisterd and segmented mri file
-if exist(segmrifname, 'file')==2 && ~isequal(par.mri_seg, 'yes')
-    load(segmrifname); 
-end
+%% Segment coregisted MRI
+load(mri_aligned_fname)
 
-%% Plot segmented MRI volume
-if par.more_plots
-    cfg              = [];
-    cfg.funparameter = 'brain';
-    cfg.location     = [0,0,0];
-    ft_sourceplot(cfg, segmri);
-end
+cfg          = [];  
+cfg.output   = {'brain', 'skull', 'scalp'};
+cfg.spmversion = 'spm12';
+segmri = ft_volumesegment(cfg, mri);
+segmri.transform = mri.transform;
+segmri.anatomy   = mri.anatomy;  
+
+save(seg_mri_fname, 'segmri')
+clear segmri
+
+%% Load the coregisterd->segmented mri file and plot
+load(seg_mri_fname);
+cfg              = [];
+cfg.funparameter = 'scalp';
+cfg.location     = [0,0,0];
+ft_sourceplot(cfg, segmri);
    
 %% Compute the subject's headmodel/volume conductor model
-if ~exist('headmodel', 'var')
-    cfg                = [];
-    cfg.method         = 'singleshell';
-    % cfg.tissue         = 'brain';
-    headmodel          = ft_prepare_headmodel(cfg, segmri);
-end
-if par.more_plots, figure, ft_plot_vol(headmodel, 'facecolor', 'brain'), rotate3d;  end
+% Prepare triangular mesh
+cfg        = [];
+cfg.method = 'projectmesh';
+cfg.numvertices = [3000 2000 1000];
+cfg.tissue = {'brain', 'skull', 'scalp'};
+mesh       = ft_prepare_mesh(cfg,segmri);
+
+% compute the 3-compartment conductor model
+cfg               = [];
+cfg.method        = 'bemcp';
+cfg.tissue        = {'brain', 'skull', 'scalp'};
+cfg.conductivity  = [0.33 0.0125 0.33]; % Siemens per meter
+headmodel         = ft_prepare_headmodel(cfg, mesh);
+
+% plot the meshes
+figure, 
+ft_plot_mesh(headmodel.bnd(1), 'facecolor', 'r'), alpha .3
+ft_plot_mesh(headmodel.bnd(2), 'facecolor', 'g'), alpha .3
+ft_plot_mesh(headmodel.bnd(3), 'facecolor', 'b'), alpha .3
+rotate3d; camlight
 
 %% Create the subject specific grid (source space) > Compute forward model
-if ~exist('leadfield', 'var') || length(data.label)~=length(leadfield.label)
-    cfg                 = [];
-    cfg.grad            = ft_convert_units(data.grad, headmodel.unit);
-    cfg.headmodel       = headmodel;
-    if isequal(headmodel.unit, 'mm')
-        cfg.grid.resolution = par.gridres;
-    elseif isequal(headmodel.unit, 'm')
-        cfg.grid.resolution = par.gridres/1000;
-    end
-    cfg.grid.unit       = headmodel.unit;
-    src_v               = ft_prepare_sourcemodel(cfg);
-    
-    cfg                 = [];
-    cfg.grad            = ft_convert_units(data.grad, headmodel.unit);  
-    cfg.headmodel       = headmodel;
-    cfg.grid            = src_v;    
-    cfg.channel         = data.label;
-    cfg.normalize       = 'yes';    
-    cfg.backproject     = 'yes';
-    cfg.senstype        = 'MEG';
-    leadfield           = ft_prepare_leadfield(cfg, data);
-else
-    disp('Using precomputed computed leadfield...')
-end
+elec_m = ft_convert_units(raw_clean.elec, 'm');
+
+cfg                 = [];
+cfg.elec            = elec_m;
+cfg.headmodel       = headmodel;
+cfg.grid.resolution = 7/1000;
+cfg.grid.unit       = 'm';
+cfg.inwardshift     = 1/1000;
+src_v               = ft_prepare_sourcemodel(cfg);
+
+cfg                 = [];
+cfg.elec            = elec_m;
+cfg.headmodel       = headmodel;
+cfg.grid            = src_v;    
+cfg.channel         = raw_clean.label;
+cfg.normalize       = 'yes';    
+cfg.backproject     = 'yes';
+cfg.senstype        = 'EEG';
+leadfield           = ft_prepare_leadfield(cfg, raw_clean);
 
 %% Check whether everything is aligned and in same coordinate and unit
-if par.more_plots
-    ft_plot_alignment_check(fname, par, segmri, data, leadfield, headmodel)
-end
-clear src_v mri
+figure, 
+ft_plot_mesh(headmodel.bnd(1), 'facecolor', 'r', 'edgecolor', 'none', 'facealpha', .1)
+ft_plot_mesh(headmodel.bnd(2), 'facecolor', 'g', 'edgecolor', 'none', 'facealpha', .1)
+ft_plot_mesh(headmodel.bnd(3), 'facecolor', 'b', 'edgecolor', 'none', 'facealpha', .1)
+ft_plot_sens(elec_m, 'label', 'off', 'elecsize', .01, 'elecshape', 'circle', 'facecolor', 'red'); 
+ft_plot_headshape(hsps, 'vertexcolor', 'm', 'vertexsize', 15)
+ft_plot_mesh(src_v.pos(src_v.inside,:), 'facecolor', 'c', 'vertexsize', 20)
+rotate3d, camlight, view(90,0)
+
+%% Save leadfields and other data
+save(replace(par.orig_filename, '.fif', '_leadfields.mat'), ...
+    'par', 'raw_clean', 'trldef', 'epochs_all', 'evoked_all', 'lay2D', ...
+    "hsps", "mri", "segmri", "mesh", "headmodel", "src_v", "leadfield", "elec_m", ...
+    '-nocompression', '-v7.3')
+
+fprintf('\nForward model is ready; now move to code6_source_level_ERP_analysis.m\n')
