@@ -1,0 +1,80 @@
+%% Usage:      Sensor-level ERP analysis
+%% Created on: July 19, 2025
+%% Created by: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
+%% 
+%% Add fieldtrip in path
+clc
+clear all
+restoredefaultpath 
+code_dir = '.'; % <<<< change this as per your directory name
+ft_dir   = '..//..//TPTools//fieldtrip//'; % <<<< change this as per your directory name
+addpath(ft_dir)
+ft_defaults
+cd(code_dir)
+addpath('functions/')
+ver
+
+%% Load clean data and other info.
+data_dir = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
+filename = [data_dir, 'sample_audvis_raw_eeg_clean.mat'];
+
+load(filename) % it loads par, raw_clean, trldef, and lay2D in the workspace
+
+%% Segment the data
+stimID  = 3;
+t1      = 0.070;
+t2      = 0.100;
+
+cfg     = [];
+cfg.trl = trldef.trl(trldef.trl(:,end)==stimID,:); 
+epochs = ft_redefinetrial(cfg, raw_clean);
+
+%% Review
+cfg = [];
+cfg.viewmode   = 'butterfly';
+ft_databrowser(cfg, epochs);
+
+%% Bad Trial removal
+cfg             = [];
+cfg.elec        = epochs.elec;
+cfg.senstype    = 'eeg';
+cfg.method      = 'summary';
+cfg.layout      = lay2D;
+cfg.keepchannel = 'nan';
+cfg.keeptrial   = 'no';
+epochs  = ft_rejectvisual(cfg, epochs);
+
+%% Baseline correction
+cfg = [];
+cfg.demean = 'yes';
+cfg.baselinewindow = [-0.5, -0.01];
+epochs = ft_preprocessing(cfg, epochs);
+
+%% Average good trials
+cfg = [];
+cfg.covariance       = 'yes';
+cfg.covariancewindow = 'all';
+cfg.vartrllength     = 2;
+evoked = ft_timelockanalysis(cfg, epochs);
+
+%% Review / Latency plot
+cfg = [];
+cfg.viewmode = 'butterfly';
+cfg.layout   = lay2D;
+ft_databrowser(cfg, evoked);
+
+%% Totoplot and topomap
+cfg = [];
+cfg.layout = lay2D;
+cfg.xlim   = [t1, t2];
+ft_multiplotER(cfg, evoked)
+ft_topoplotER(cfg, evoked)
+
+%% Save data and other info. in a mat file
+save(replace(filename, '.mat', '_clean.mat'),...
+    'par', 'raw_clean', 'trldef', 'epochs', 'evoked', 'lay2D',...
+    '-nocompression', '-v7.3')
+
+fprintf('\nClean data saved; now move to source-level analysis.\n')
+
+%% *****************************

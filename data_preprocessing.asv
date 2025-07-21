@@ -1,4 +1,4 @@
-%% Usage:      Data preprocessing/ signal enrichment
+%% Usage:      Data preprocessing
 %% Created on: July 19, 2025
 %% Created by: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
 %% 
@@ -114,13 +114,54 @@ cfg_browse.viewmode   = 'vertical';
 ft_databrowser(cfg_browse, rawfilt_eeg);
 ft_databrowser(cfg_browse, raw_clean);
 
-%% Save data and other info. in a mat file
-save(replace(filename, '.mat', '_clean.mat'),...
-    'par', 'raw_clean', 'trldef', 'lay2D',...
-    '-nocompression', '-v7.3')
+%% Segment the data
+stimID  = 3;
+t1      = 0.75;
+t2      = 0.100;
 
-fprintf('\nClean data saved; now move to sensor_level_ERP_analysis.m\n')
+cfg     = [];
+cfg.trl = trldef.trl(trldef.trl(:,end)==stimID,:); 
+epochs = ft_redefinetrial(cfg, raw_clean);
 
-%% *****************************
+%% Review
+cfg = [];
+cfg.viewmode   = 'butterfly';
+ft_databrowser(cfg, epochs);
+
+%%
+cfg             = [];
+cfg.elec        = epochs.elec;
+cfg.senstype    = 'eeg';
+cfg.method      = 'summary';
+cfg.layout      = lay2D;
+cfg.keepchannel = 'nan';
+cfg.keeptrial   = 'no';
+epochs  = ft_rejectvisual(cfg, epochs);
+
+cfg = [];
+cfg.demean = 'yes';
+cfg.baselinewindow = [-0.5, -0.01];
+epochs = ft_preprocessing(cfg, epochs);
+
+%%
+cfg = [];
+cfg.covariance       = 'yes';
+cfg.covariancewindow = 'all';
+cfg.vartrllength     = 2;
+evoked = ft_timelockanalysis(cfg, epochs);
+
+%%
+cfg = [];
+cfg.viewmode = 'butterfly';
+cfg.layout   = lay2D;
+ft_databrowser(cfg, evoked);
+
+cfg = [];
+cfg.layout = lay2D;
+cfg.xlim   = [0.09, 0.130];
+ft_multiplotER(cfg, evoked)
+ft_topoplotER(cfg, evoked)
+
+
 
 
