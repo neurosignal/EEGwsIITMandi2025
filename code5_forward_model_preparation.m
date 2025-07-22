@@ -62,7 +62,6 @@ mri = ft_volumerealign(cfg, mri);
 
 %% Cross check the alignment
 ft_determine_coordsys(mri, 'interactive', 'no')
-% hsps = ft_convert_units(hsps, 'm');
 ft_plot_headshape(hsps)
 
 %% Save aligned MRI
@@ -70,7 +69,7 @@ save(aligned_mri_fname, 'mri')
 clear mri
 
 %% Segment coregisted MRI
-load(mri_aligned_fname)
+load(aligned_mri_fname)
 
 cfg          = [];  
 cfg.output   = {'brain', 'skull', 'scalp'};
@@ -81,6 +80,7 @@ segmri.anatomy   = mri.anatomy;
 
 save(seg_mri_fname, 'segmri')
 clear segmri
+disp('segmentation done.')
 
 %% Load the coregisterd->segmented mri file and plot
 load(seg_mri_fname);
@@ -88,7 +88,7 @@ cfg              = [];
 cfg.funparameter = 'scalp';
 cfg.location     = [0,0,0];
 ft_sourceplot(cfg, segmri);
-   
+
 %% Compute the subject's headmodel/volume conductor model
 % Prepare triangular mesh
 cfg        = [];
@@ -99,7 +99,7 @@ mesh       = ft_prepare_mesh(cfg,segmri);
 
 % compute the 3-compartment conductor model
 cfg               = [];
-cfg.method        = 'bemcp';
+cfg.method        = 'openmeeg';
 cfg.tissue        = {'brain', 'skull', 'scalp'};
 cfg.conductivity  = [0.33 0.0125 0.33]; % Siemens per meter
 headmodel         = ft_prepare_headmodel(cfg, mesh);
@@ -117,9 +117,9 @@ elec_m = ft_convert_units(raw_clean.elec, 'm');
 cfg                 = [];
 cfg.elec            = elec_m;
 cfg.headmodel       = headmodel;
-cfg.grid.resolution = 7/1000;
+cfg.grid.resolution = 8/1000;
 cfg.grid.unit       = 'm';
-cfg.inwardshift     = 1/1000;
+cfg.inwardshift     = 2/1000;
 src_v               = ft_prepare_sourcemodel(cfg);
 
 cfg                 = [];
@@ -130,6 +130,7 @@ cfg.channel         = raw_clean.label;
 cfg.normalize       = 'yes';    
 cfg.backproject     = 'yes';
 cfg.senstype        = 'EEG';
+cfg.unit            = 'm';
 leadfield           = ft_prepare_leadfield(cfg, raw_clean);
 
 %% Check whether everything is aligned and in same coordinate and unit
@@ -148,4 +149,4 @@ save(replace(par.orig_filename, '.fif', '_leadfields.mat'), ...
     "hsps", "mri", "segmri", "mesh", "headmodel", "src_v", "leadfield", "elec_m", ...
     '-nocompression', '-v7.3')
 
-fprintf('\nForward model is ready; now move to code6_source_level_ERP_analysis.m\n')
+fprintf('\nForward model is ready; now move to source_level_ERP_analysis.m\n')

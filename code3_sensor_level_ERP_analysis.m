@@ -24,7 +24,7 @@ epochs_all = containers.Map();
 evoked_all = containers.Map();
 
 %% Segment the data / epoching
-stimulus= 'VEF-L'; % <<< change this
+stimulus= 'VEF-R'; % <<< change this
 t1      = 0.070;   % <<< change this
 t2      = 0.100;   % <<< change this 
 
@@ -78,6 +78,7 @@ ft_topoplotER(cfg, evoked)
 %% collect epochs and evoked in the containers
 epochs_all(stimulus) = epochs;
 evoked_all(stimulus) = evoked;
+disp(epochs_all)
 
 %% Save data and other info. in a mat file
 save(filename,...
