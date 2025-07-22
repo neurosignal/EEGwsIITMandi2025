@@ -99,7 +99,8 @@ mesh       = ft_prepare_mesh(cfg,segmri);
 
 % compute the 3-compartment conductor model
 cfg               = [];
-cfg.method        = 'openmeeg';
+cfg.method        = 'dipoli';
+cfg.tempdir       = '/home/amit3/tmpExe/';
 cfg.tissue        = {'brain', 'skull', 'scalp'};
 cfg.conductivity  = [0.33 0.0125 0.33]; % Siemens per meter
 headmodel         = ft_prepare_headmodel(cfg, mesh);
