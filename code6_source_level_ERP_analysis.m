@@ -1,4 +1,4 @@
-%% Usage: Beamforming
+%% Usage: Source reconstruction using beamforming
 %% 
 %% Add fieldtrip in path
 clc
@@ -33,12 +33,6 @@ ft_databrowser(cfg, evoked);
 
 ctrlwin = [-.5, -.05];
 actiwin = [.05, .1];
-% %% Calculate covariance for filter
-% cfg = [];
-% cfg.covariance='yes';
-% cfg.covariancewindow = par.trialwin;
-% cfg.vartrllength = 2;
-% evoked = ft_timelockanalysis(cfg,data_stim);
 
 %% Compute noise cov.
 cfg = [];
@@ -64,7 +58,7 @@ cfg.method           = 'lcmv';
 cfg.grid             = leadfield;
 cfg.headmodel        = headmodel; 
 cfg.lcmv.keepfilter  = 'yes';
-cfg.lcmv.fixedori    = 'yes'; % project on axis of most variance using SVD
+cfg.lcmv.fixedori    = 'yes'; 
 cfg.lcmv.reducerank  = 3;
 cfg.lcmv.normalize   = 'yes';
 cfg.senstype         = 'EEG';
@@ -80,35 +74,27 @@ cfg.headmodel        = headmodel;
 source_pre  = ft_sourceanalysis(cfg, evoked_pre); % apply spatial filter on noise
 source_post = ft_sourceanalysis(cfg, evoked_post); % apply spatial filter on data
 
-%% Calculate Neural Activity Index 
+%% Calculate Neural Activity Index (NAI)
 spatial_map = source_post;
 spatial_map.avg.pow = (source_post.avg.pow-source_pre.avg.pow)./source_pre.avg.pow;
 
-%%
+%% Interpolate source map with MRI
 cfg            = [];
 cfg.downsample = 2;
 cfg.parameter  = 'pow';
 mapOnMRI  = ft_sourceinterpolate(cfg, spatial_map , mri);
 
-%%
+%% Plot source map on MRI
 maxval = max(mapOnMRI.pow, [], 'all');
 
 cfg = [];
-cfg.method        = 'slice';
+cfg.method        = 'ortho';
 cfg.funparameter  = 'pow';
 cfg.maskparameter = cfg.funparameter;
 cfg.funcolorlim   = [0.0 maxval];
 cfg.opacitylim    = [0.0 maxval];
 cfg.opacitymap    = 'rampup';
-ft_sourceplot(cfg, sourceDiffInt);
+cfg.atlas         = [ft_dir, 'template/atlas/brainnetome/BNA_MPM_thr25_1.25mm.nii'];
+ft_sourceplot(cfg, mapOnMRI)
 
-%% Find hotspot/peak location  
-M1.avg.pow(isnan(M1.avg.pow))=0;
-POW = abs(M1.avg.pow);
-[~,hind] = max(POW);
-hval = M1.avg.pow(hind);
-hspot = M1.pos(hind,:)*ft_scalingfactor(headmodel.unit,'mm');
-difff = sqrt(sum((actual_diploc((find(valueset==evdict(stimcat))),:)-hspot).^2));
-n_act_grid = length(POW(POW > max(POW(:))*0.50));
-PSVol = n_act_grid*(par.gridres^3);
-
+%% Get source time-series ??

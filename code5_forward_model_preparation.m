@@ -37,6 +37,7 @@ raw_clean.hdr.elec.coordsys = 'neuromag';
 mri = ft_read_mri(mri_fname);
 mri.coordsys = 'scanras';
 mri = ft_convert_units(mri, 'm');
+hsps = ft_convert_units(hsps, 'm');
 
 ft_sourceplot([], mri)
 
@@ -48,7 +49,6 @@ cfg.parameter   = 'anatomy';
 cfg.viewresult  =  'yes' ;
 mri = ft_volumerealign(cfg, mri);
 
-hsps = ft_convert_units(hsps, 'm');
 cfg                     = [];
 cfg.method              = 'headshape';
 cfg.headshape.headshape = hsps;
@@ -95,22 +95,24 @@ cfg.numvertices = [3000 2000 1000];
 cfg.tissue = {'brain', 'skull', 'scalp'};
 mesh       = ft_prepare_mesh(cfg,segmri);
 
-% compute the 3-compartment conductor model
-cfg               = [];
-cfg.method        = 'dipoli';
-cfg.tempdir       = '/home/amit3/tmpExe/';
-cfg.tissue        = {'brain', 'skull', 'scalp'};
-cfg.conductivity  = [0.33 0.0125 0.33]; % Siemens per meter
-headmodel         = ft_prepare_headmodel(cfg, mesh);
+% compute the 3-compartment conductor model 
+cfg              = [];
+cfg.method       = 'dipoli'; 
+cfg.tissue       = {'brain', 'skull', 'scalp'};
+cfg.conductivity = [0.33 0.0125 0.33]; 
+headmodel        = ft_prepare_headmodel(cfg, mesh);
+
+save([data_dir, 'headmodel_dipoli.mat'], 'headmodel')
 
 % plot the meshes
 figure, 
 ft_plot_mesh(headmodel.bnd(1), 'facecolor', 'r'), alpha .3
-ft_plot_mesh(headmodel.bnd(2), 'facecolor', 'g'), alpha .3
-ft_plot_mesh(headmodel.bnd(3), 'facecolor', 'b'), alpha .3
-rotate3d; camlight
+ft_plot_mesh(headmodel.bnd(2), 'facecolor', 'g'), alpha .2
+ft_plot_mesh(headmodel.bnd(3), 'facecolor', 'b'), alpha .1
+rotate3d; camlight; view(-90,0)
 
 %% Create the subject specific grid (source space) > Compute forward model
+load([data_dir, 'headmodel_dipoli.mat'])
 elec_m = ft_convert_units(raw_clean.elec, 'm');
 
 cfg                 = [];
