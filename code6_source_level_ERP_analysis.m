@@ -1,6 +1,4 @@
-%% Usage:      Forward model preparation.
-%% Created on: July 19, 2025
-%% Created by: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
+%% Usage: Beamforming
 %% 
 %% Add fieldtrip in path
 clc

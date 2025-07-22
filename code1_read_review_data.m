@@ -1,6 +1,4 @@
-%% Usage:      Read and review data
-%% Created on: July 19, 2025
-%% Created by: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
+%% Usage: Read and review data
 %% 
 %% Add fieldtrip in path
 clc

@@ -1,6 +1,4 @@
-%% Usage:      Data preprocessing/ signal enrichment
-%% Created on: July 19, 2025
-%% Created by: Amit Jaiswal @ MEGIN Oy, Espoo, Finland <amit.jaiswal@megin.fi>
+%% Usage: Data preprocessing/ signal enrichment
 %% 
 %% Add fieldtrip in path
 clc
