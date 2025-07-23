@@ -32,6 +32,7 @@ stimID  = par.evdict(stimulus);
 cfg     = [];
 cfg.trl = trldef.trl(trldef.trl(:,end)==stimID,:); 
 epochs = ft_redefinetrial(cfg, raw_clean);
+disp(epochs)
 
 %% Review
 cfg = [];
