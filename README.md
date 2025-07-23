@@ -5,6 +5,9 @@ This repository contains code and resources for the **EEG-FieldTrip Workshop** o
 
 ---
 
+## 📂 Question channel
+Ask you questions and doubts here: **[Questions??](https://docs.google.com/document/d/1m96PZiQVzDXJGZehgrLyG3b7Z3ZSNB8H8EwihHJh9_g/edit?usp=sharing)** 
+
 ## 📂 Test Data Description
 
 The **60-channel unipolar EEG data** were recorded using a **Vectorview system** (MEGIN Oy, Espoo, Finland). These data were originally acquired alongside **306-channel MEG recordings**; however, **MEG channels have been removed** for this EEG-focused workshop.
