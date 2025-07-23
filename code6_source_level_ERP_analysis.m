@@ -97,4 +97,4 @@ cfg.opacitymap    = 'rampup';
 cfg.atlas         = [ft_dir, 'template/atlas/brainnetome/BNA_MPM_thr25_1.25mm.nii'];
 ft_sourceplot(cfg, mapOnMRI)
 
-%% Get source time-series ??
+%% TODO: Get source time-series ??
