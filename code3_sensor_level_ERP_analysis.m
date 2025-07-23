@@ -22,6 +22,7 @@ epochs_all = containers.Map();
 evoked_all = containers.Map();
 
 %% Segment the data / epoching
+
 stimulus= 'VEF-R'; % <<< change this
 t1      = 0.070;   % <<< change this
 t2      = 0.100;   % <<< change this 
