@@ -18,7 +18,6 @@ filename = [data_dir, 'sample_audvis_raw_eeg.fif'];
 
 par            = [];
 par.bpfreq     = [1 45];
-par.cov_cut    = [2, 98]; 
 
 %% Browse/review raw data
 cfg          = [];
