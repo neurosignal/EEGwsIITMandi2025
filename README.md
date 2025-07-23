@@ -5,7 +5,7 @@ This repository contains code and resources for the **EEG-FieldTrip Workshop** o
 
 ---
 
-## 📂 Question channel
+## 👉👉 Question channel
 Ask you questions and doubts here: **[Questions??](https://docs.google.com/document/d/1m96PZiQVzDXJGZehgrLyG3b7Z3ZSNB8H8EwihHJh9_g/edit?usp=sharing)** 
 
 ## 📂 Test Data Description
