@@ -72,6 +72,8 @@ We will use the **FieldTrip toolbox** in MATLAB for EEG analysis. Download it he
 Download, extract (unzip) and add path to your MATLAB:
 addpath(‘fieldtrip directory on your drive’)
 ft_defaults	
+
+
 ---
 
 > ⚠️ **Note: Please complete all installations before the workshop to make the most of the hands-on sessions.  
