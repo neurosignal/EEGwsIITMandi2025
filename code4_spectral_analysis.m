@@ -53,7 +53,10 @@ cfg.output     = 'pow';
 cfg.channel    = 'all';
 cfg.method     = 'mtmconvol';
 cfg.taper      = 'hanning';
-cfg.toi        = data.time{1};
+tmin           = data.time{1}(1);
+tmax           = data.time{1}(end);
+tshift         = 0.25;  % half of 0.5s window
+cfg.toi        = tmin + tshift : 0.05 : tmax - tshift;  % steps of 50 ms
 cfg.foi        = 1 : 1 : 45;
 cfg.t_ftimwin  = ones(size(cfg.foi)) * 0.5;
 tfr  = ft_freqanalysis(cfg, data);
@@ -77,9 +80,9 @@ title(stimulus);
 cfg          = [];
 cfg.colorbar = 'yes';
 cfg.zlim     = 'maxabs';
-cfg.ylim     = [7 Inf]; 
+cfg.ylim     = [13 30]; 
 cfg.layout   = lay2D;
-cfg.channel  = 'EEG054';
+cfg.channel  = 'EEG 054';
 
 figure;
 ft_singleplotTFR(cfg, tfr);
