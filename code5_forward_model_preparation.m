@@ -10,7 +10,6 @@ addpath(ft_dir)
 ft_defaults
 cd(code_dir)
 addpath('functions/')
-ver
 
 %% Load clean data and other info.
 data_dir = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
@@ -83,7 +82,7 @@ disp('segmentation done.')
 %% Load the coregisterd->segmented mri file and plot
 load(seg_mri_fname);
 cfg              = [];
-cfg.funparameter = 'scalp';
+cfg.funparameter = 'skull';
 cfg.location     = [0,0,0];
 ft_sourceplot(cfg, segmri);
 
@@ -133,6 +132,7 @@ cfg.backproject     = 'yes';
 cfg.senstype        = 'EEG';
 cfg.unit            = 'm';
 leadfield           = ft_prepare_leadfield(cfg, raw_clean);
+disp(leadfield)
 
 %% Check whether everything is aligned and in same coordinate and unit
 figure, 

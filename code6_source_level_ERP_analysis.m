@@ -10,7 +10,6 @@ addpath(ft_dir)
 ft_defaults
 cd(code_dir)
 addpath('functions/')
-ver
 
 %% Load clean data and other info.
 data_dir    = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
@@ -67,7 +66,7 @@ source_avg           = ft_sourceanalysis(cfg, evoked); % create spatial filters
 
 cfg                  = [];
 cfg.method           = 'lcmv';
-cfg.senstype         = 'MEG';
+cfg.senstype         = 'EEG';
 cfg.grid             = leadfield;
 cfg.grid.filter      = source_avg.avg.filter;
 cfg.headmodel        = headmodel;

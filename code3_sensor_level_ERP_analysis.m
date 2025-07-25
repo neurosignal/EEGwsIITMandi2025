@@ -10,7 +10,6 @@ addpath(ft_dir)
 ft_defaults
 cd(code_dir)
 addpath('functions/')
-ver
 
 %% Load clean data and other info.
 data_dir = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
@@ -18,6 +17,7 @@ filename = [data_dir, 'sample_audvis_raw_eeg_clean.mat'];
 
 load(filename) % it loads par, raw_clean, trldef, and lay2D in the workspace
 
+%% MAke containers to hold segmented and averaged data
 epochs_all = containers.Map();
 evoked_all = containers.Map();
 

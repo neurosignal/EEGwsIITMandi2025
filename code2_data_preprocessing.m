@@ -10,7 +10,7 @@ addpath(ft_dir)
 ft_defaults
 cd(code_dir)
 addpath('functions/')
-ver
+
 
 %% Load Data
 data_dir = '..//..//..//Workshop_IITMandi/'; % <<<< change this as per your directory name
