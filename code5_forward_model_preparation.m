@@ -82,7 +82,7 @@ disp('segmentation done.')
 %% Load the coregisterd->segmented mri file and plot
 load(seg_mri_fname);
 cfg              = [];
-cfg.funparameter = 'skull';
+cfg.funparameter = 'scalp';
 cfg.location     = [0,0,0];
 ft_sourceplot(cfg, segmri);
 
