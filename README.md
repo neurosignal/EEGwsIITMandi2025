@@ -76,8 +76,5 @@ ft_defaults
 
 ---
 
-> ⚠️ **Note: Please complete all installations before the workshop to make the most of the hands-on sessions.  
-Please feel free to write us if you find any difficulties while setup, at:  amit.jaiswal@megin.fi, sanjeevnara@iitmandi.ac.in, pooja@ihubiitmandi.in** 
-
 
  
