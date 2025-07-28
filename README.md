@@ -14,10 +14,10 @@ The **60-channel unipolar EEG data** were recorded using a **Vectorview system**
 
 The dataset is a subset of the official **MNE-Python tutorial datasets**.
 
-👉 For the hands-on session, a **EEG-only version** is available **until July 27, 2025** at:  
+👉 For the hands-on session, a **EEG-only version** is available at:  
 **[Download hands-on data](https://drive.google.com/drive/folders/1VsYW37wIM7R8xNUFmQY9K_h37B-Q_w5F?usp=sharing)**
 
-After that, please refer to the original dataset via the official **MNE-Python** website.
+Please refer to the original dataset via the official **MNE-Python** website.
 
 ---
 
