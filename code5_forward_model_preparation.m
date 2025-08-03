@@ -82,7 +82,7 @@ disp('segmentation done.')
 %% Load the coregisterd->segmented mri file and plot
 load(seg_mri_fname);
 cfg              = [];
-cfg.funparameter = 'scalp';
+cfg.funparameter = 'brain';
 cfg.location     = [0,0,0];
 ft_sourceplot(cfg, segmri);
 
@@ -125,7 +125,11 @@ src_v               = ft_prepare_sourcemodel(cfg);
 cfg                 = [];
 cfg.elec            = elec_m;
 cfg.headmodel       = headmodel;
-cfg.grid            = src_v;    
+% cfg.grid            = src_v;  
+cfg.xgrid           = (-200:8:200)/1000;
+cfg.ygrid           = (-200:8:200)/1000;
+cfg.zgrid           = (-200:8:200)/1000;
+cfg.inwardshift     = 2/1000;
 cfg.channel         = raw_clean.label;
 cfg.normalize       = 'yes';    
 cfg.backproject     = 'yes';
@@ -141,8 +145,8 @@ ft_plot_mesh(headmodel.bnd(2), 'facecolor', 'g', 'edgecolor', 'none', 'facealpha
 ft_plot_mesh(headmodel.bnd(3), 'facecolor', 'b', 'edgecolor', 'none', 'facealpha', .1)
 ft_plot_sens(elec_m, 'label', 'off', 'elecsize', .01, 'elecshape', 'circle', 'facecolor', 'red'); 
 ft_plot_headshape(hsps, 'vertexcolor', 'm', 'vertexsize', 15)
-ft_plot_mesh(src_v.pos(src_v.inside,:), 'facecolor', 'c', 'vertexsize', 20)
-rotate3d, camlight, view(90,0)
+ft_plot_mesh(leadfield.pos(leadfield.inside,:), 'facecolor', 'c', 'vertexsize', 20)
+rotate3d, camlight, view(-90,0)
 
 %% Save leadfields and other data
 save(replace(par.orig_filename, '.fif', '_leadfields.mat'), ...

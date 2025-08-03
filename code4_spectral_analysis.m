@@ -19,7 +19,7 @@ filename = [data_dir, 'sample_audvis_raw_eeg_clean.mat'];
 load(filename) % it loads par, raw_clean, trldef, and lay2D in the workspace
 
 %% Computing power spectra
-stimulus = 'VEF-R';
+stimulus = 'VEF-L';
 data  = epochs_all(stimulus);
 
 cfg         = [];
