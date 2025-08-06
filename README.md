@@ -5,6 +5,12 @@ This repository contains code and resources for the **EEG-FieldTrip Workshop** o
 
 ---
 
+## 📂 Lecture slides
+- **[Open-source EEG/MEG analysis software: FieldTrip toolbox in detail](https://)**
+- **[Forward and inverse solutions for EEG/MEG source reconstruction](https://)**
+- **[EEG/MEG source reconstruction using beamformers](https://)**
+
+
 ## 👉👉 Question channel
 Ask you questions and doubts here: **[Questions??](https://docs.google.com/document/d/1m96PZiQVzDXJGZehgrLyG3b7Z3ZSNB8H8EwihHJh9_g/edit?usp=sharing)** 
 
