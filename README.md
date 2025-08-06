@@ -9,7 +9,7 @@ This repository contains code and resources for the **EEG-FieldTrip Workshop** o
 - **[Open-source EEG/MEG analysis software: FieldTrip toolbox in detail](https://)**
 - **[Forward and inverse solutions for EEG/MEG source reconstruction](https://)**
 - **[EEG/MEG source reconstruction using beamformers](https://)**
-
+---
 
 ## 👉👉 Question channel
 Ask you questions and doubts here: **[Questions??](https://docs.google.com/document/d/1m96PZiQVzDXJGZehgrLyG3b7Z3ZSNB8H8EwihHJh9_g/edit?usp=sharing)** 
@@ -35,7 +35,9 @@ Please refer to the original dataset via the official **MNE-Python** website.
 - Applying ICA  
 - Data segmentation (epoching)  
 - Omitting bad trials and channels  
-- Trial averaging and visualization  
+- Trial averaging and visualization
+- Sensor-level ERP analysis
+- Time-frequency analysis
 - MRI segmentation  
 - MRI-EEG coregistration  
 - Head model preparation  
